@@ -1,9 +1,12 @@
 const express = require('express');
 const morgan = require("morgan");
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const rp = require('request-promise');
+// const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // Creating a proxy server to hit the coin marketplace api
 // based off of: https://www.twilio.com/blog/node-js-proxy-server
+
+// CoinMarketCap API Documentation: https://coinmarketcap.com/api/documentation/v1/#section/Quick-Start-Guide
 
 // Create Express Server
 const app = express();
@@ -11,33 +14,43 @@ const app = express();
 // Configuration
 const PORT = 3000;
 const HOST = "localhost";
-const API_SERVICE_URL = "https://jsonplaceholder.typicode.com";
+const API_SERVICE_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency";
+const API_KEY = "dc94fbfa-3153-41f2-8026-ab4aaf62abae";
 
 // Logging
 app.use(morgan('dev'));
 
-// Info GET endpoint
-app.get('/info', (req, res, next) => {
-  res.send('This is a proxy service which proxies to Billing and Account APIs.');
-});
-
-// Authorization
-// app.use('', (req, res, next) => {
-//    if (req.headers.authorization) {
-//        next();
-//    } else {
-//        res.sendStatus(403);
-//    }
-// });
-
 // Proxy endpoints
-app.use('/json_placeholder', createProxyMiddleware({
-  target: API_SERVICE_URL,
-  changeOrigin: true,
-  pathRewrite: {
-      [`^/json_placeholder`]: '',
-  },
-}));
+// app.use('/json_placeholder', createProxyMiddleware({
+//   target: API_SERVICE_URL,
+//   changeOrigin: true,
+//   pathRewrite: {
+//       [`^/json_placeholder`]: '',
+//   },
+// }));
+
+app.use('/listings', (req, res, next) => {
+  const requestOptions = {
+    method: 'GET',
+    uri: `${API_SERVICE_URL}/listings/latest`,
+    qs: {
+      'start': '1',
+      'limit': '5000',
+      'convert': 'USD'
+    },
+    headers: {
+      'X-CMC_PRO_API_KEY': API_KEY
+    },
+    json: true,
+    gzip: true
+  };
+
+  rp(requestOptions).then(response => {
+    res.send(response);
+  }).catch((err) => {
+    res.send(error);
+  });
+})
 
 // Start the Proxy
 app.listen(PORT, HOST, () => {
