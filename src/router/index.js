@@ -1,11 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from '../views/Dashboard.vue'
+import Listing from '../views/Listing.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Dashboard',
     component: Dashboard
+  },
+  {
+    path: '/lsting/:symbol',
+    name: 'Listing',
+    component: Listing,
+    props: true,
   }
 ]
 
