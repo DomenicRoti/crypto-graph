@@ -7,9 +7,9 @@
         :key="coin.id"
       >
       <router-link
-        :to="{ name: 'Listing', params: { symbol: coin.symbol },}"
+        :to="{ name: 'Listing', params: { symbol: coin.symbol_id },}"
       >
-        {{ coin.symbol}}
+        {{ coin.asset_id_base}}
       </router-link>
       </li>
     </ul>
@@ -27,10 +27,9 @@ export default {
     let listings = ref([])
     const getCoinListings = () => {
     const apiUrl = process.env.VUE_APP_API_URL;
-      return axios.get(`${apiUrl}/listings`)
+      return axios.get(`${apiUrl}/v1/symbols?filter_symbol_id=KRAKEN&filter_asset_id=USD`)
         .then(response => {
-          console.log('test')
-          listings.value = response.data.data
+          listings.value = response.data.splice(0, 50)
         })
     }
     onMounted(() => {

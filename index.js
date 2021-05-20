@@ -1,6 +1,11 @@
 const express = require('express');
+var cors = require('cors')
 const morgan = require("morgan");
 const rp = require('request-promise');
+
+var corsOptions = {
+  origin: 'http://localhost:8080'
+}
 // const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // Creating a proxy server to hit the coin marketplace api
@@ -29,14 +34,42 @@ app.use(morgan('dev'));
 //   },
 // }));
 
-app.use('/listings', (req, res) => {
+app.use('/listings/:symbol?', cors(corsOptions), (req, res) => {
+  const symbol = req.params.symbol;
   const requestOptions = {
     method: 'GET',
     uri: `${API_SERVICE_URL}/listings/latest`,
     qs: {
       'start': '1',
-      'limit': '5000',
-      'convert': 'USD'
+      'limit': '50',
+      'convert': 'USD',
+      symbol
+    },
+    headers: {
+      'X-CMC_PRO_API_KEY': API_KEY
+    },
+    json: true,
+    gzip: true
+  };
+
+  rp(requestOptions).then(response => {
+    res.send(response.body.status);
+  }).catch((err) => {
+    res.send(err);
+  });
+})
+
+// https://pro-api.coinmarketcap.com/v1/cryptocurrency/ohlcv/historical
+app.use('/ohlcv/:symbol?', cors(corsOptions), (req, res) => {
+  const symbol = req.params.symbol;
+  const date = new Date()
+  const startDate = new Date(date.setDate(date.getDate()-30))
+  const requestOptions = {
+    method: 'GET',
+    uri: `${API_SERVICE_URL}/ohlcv/historical`,
+    qs: {
+      time_start: startDate,
+      symbol
     },
     headers: {
       'X-CMC_PRO_API_KEY': API_KEY
