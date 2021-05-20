@@ -29,7 +29,7 @@ app.use(morgan('dev'));
 //   },
 // }));
 
-app.use('/listings', (req, res, next) => {
+app.use('/listings', (req, res) => {
   const requestOptions = {
     method: 'GET',
     uri: `${API_SERVICE_URL}/listings/latest`,
@@ -48,7 +48,7 @@ app.use('/listings', (req, res, next) => {
   rp(requestOptions).then(response => {
     res.send(response);
   }).catch((err) => {
-    res.send(error);
+    res.send(err);
   });
 })
 
