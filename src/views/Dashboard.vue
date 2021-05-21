@@ -26,8 +26,10 @@ export default {
   setup () {
     let listings = ref([])
     const getCoinListings = () => {
-    const apiUrl = process.env.VUE_APP_API_URL;
-      return axios.get(`${apiUrl}/v1/symbols?filter_symbol_id=KRAKEN&filter_asset_id=USD`)
+      const apiUrl = process.env.VUE_APP_API_URL;
+      const exchange = 'GEMINI' // You have to use the GEMINI exchange in the sandbox enviornment
+      // const exchange = 'KRAKEN'
+      axios.get(`${apiUrl}/v1/symbols?filter_exchange_id=${exchange}&filter_asset_id=USD`)
         .then(response => {
           listings.value = response.data.splice(0, 50)
         })
@@ -36,7 +38,6 @@ export default {
       getCoinListings()
     })
     return {
-      getCoinListings,
       listings
     }
   }
