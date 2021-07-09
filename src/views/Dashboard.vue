@@ -7,9 +7,11 @@
         :key="coin.id"
       >
       <router-link
-        :to="{ name: 'Listing', params: { symbol: coin.symbol_id },}"
+        :to="{ name: 'Listing', params: { id: coin.id },}"
       >
-        {{ coin.asset_id_base}}
+        {{ coin.name}}
+        <img :src="coin.image" />
+        Market Cap: {{ coin.market_cap }}
       </router-link>
       </li>
     </ul>
@@ -27,11 +29,10 @@ export default {
     let listings = ref([])
     const getCoinListings = () => {
       const apiUrl = process.env.VUE_APP_API_URL;
-      const exchange = 'GEMINI' // You have to use the GEMINI exchange in the sandbox enviornment
-      // const exchange = 'KRAKEN'
-      axios.get(`${apiUrl}/v1/symbols?filter_exchange_id=${exchange}&filter_asset_id=USD`)
+      // todo break the next line up into an array of params
+      axios.get(`${apiUrl}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false`)
         .then(response => {
-          listings.value = response.data.splice(0, 50)
+          listings.value = response.data
         })
     }
     onMounted(() => {

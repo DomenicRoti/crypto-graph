@@ -9,7 +9,7 @@ const routes = [
     component: Dashboard
   },
   {
-    path: '/lsting/:symbol',
+    path: '/lsting/:id',
     name: 'Listing',
     component: Listing,
     props: true,
