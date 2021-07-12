@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import axios from 'axios';
 import App from './App.vue'
 import router from './router'
+import store from "./store/store"
 
 axios.interceptors.request.use((config) => ({
   ...config,
@@ -11,4 +12,4 @@ axios.interceptors.request.use((config) => ({
   }
 }))
 
-createApp(App).use(router).mount('#app')
+createApp(App).use(router).use(store).mount('#app')

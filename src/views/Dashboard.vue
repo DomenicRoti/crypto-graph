@@ -1,9 +1,9 @@
 <template>
     <h1>Dashboard</h1>
     
-    <ul v-if="listings.length">
+    <ul v-if="coins.length">
       <li 
-        v-for="coin in listings"
+        v-for="coin in coins"
         :key="coin.id"
       >
       <router-link
@@ -19,27 +19,15 @@
 </template>
 
 <script>
-import { onMounted } from 'vue'
-import axios from 'axios';
- import { ref } from 'vue'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'Dashboard',
   setup () {
-    let listings = ref([])
-    const getCoinListings = () => {
-      const apiUrl = process.env.VUE_APP_API_URL;
-      // todo break the next line up into an array of params
-      axios.get(`${apiUrl}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false`)
-        .then(response => {
-          listings.value = response.data
-        })
-    }
-    onMounted(() => {
-      getCoinListings()
-    })
+    const store = useStore()
     return {
-      listings
+      coins: computed(() => store.state.coins.coins),
     }
   }
 }
