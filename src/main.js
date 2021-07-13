@@ -4,6 +4,8 @@ import App from './App.vue'
 import router from './router'
 import store from "./store/store"
 
+import './scss/main.scss'
+
 axios.interceptors.request.use((config) => ({
   ...config,
   headers: {

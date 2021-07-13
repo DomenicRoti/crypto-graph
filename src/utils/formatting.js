@@ -5,6 +5,12 @@
 */
 export default {
   formatDollar (value) {
-    return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return '$' + value.toLocaleString('en-US', {
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 2
+    })
+  },
+  uppercase (value) {
+    return value.toUpperCase()
   }
 }

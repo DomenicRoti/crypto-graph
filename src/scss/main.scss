@@ -1,0 +1,12 @@
+a {
+  color: $cg-blue;
+  text-decoration: none;
+  &:hover,
+  &:active {
+    color: $cg-dark-blue;
+  }
+}
+
+.flex {
+  display: flex;
+}
