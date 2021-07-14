@@ -1,11 +1,11 @@
 <template>
     <h1>{{ coin.asset_id_base }}</h1>
     timePeriods
-    <select 
+    <select
       v-model="selectedTimePeriod"
       @change="getChartData"
     >
-      <option 
+      <option
         v-for="period in timePeriods"
         :key="period.days"
         :label="period.label"
@@ -21,31 +21,31 @@
 </template>
 
 <script>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue';
 import axios from 'axios';
-import Vue3ChartJs from "@j-t-mcc/vue3-chartjs";
+import Vue3ChartJs from '@j-t-mcc/vue3-chartjs';
 import 'chartjs-adapter-dayjs';
-import Formatting from '@/utils/formatting'
+import Formatting from '@/utils/formatting';
 
 export default {
   name: 'Listing',
   props: {
     id: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   components: {
     Vue3ChartJs,
   },
-  setup (props) {
+  setup(props) {
     const apiUrl = process.env.VUE_APP_API_URL;
     const numberOfDays = [
       30,
       60,
       90,
-      365
-    ]
+      365,
+    ];
     const timePeriods = [
       {
         days: 30,
@@ -66,22 +66,22 @@ export default {
         days: 365,
         label: 'Year',
       },
-    ]
-    const selectedTimePeriod = ref(timePeriods[0])
-    const chartRef = ref(null)
+    ];
+    const selectedTimePeriod = ref(timePeriods[0]);
+    const chartRef = ref(null);
     const lineChart = reactive({
-      type: "line",
+      type: 'line',
       data: {
         datasets: [
           {
-            borderColor: "rgb(22, 82, 240)",
+            borderColor: 'rgb(22, 82, 240)',
             borderWidth: 2,
-            backgroundColor: "rgb(22, 82, 240)",
+            backgroundColor: 'rgb(22, 82, 240)',
             fill: false,
             label: 'Price',
             pointRadius: 0,
-          }
-        ]
+          },
+        ],
       },
       options: {
         interaction: {
@@ -92,11 +92,11 @@ export default {
         },
         plugins: {
           legend: {
-            display: false
+            display: false,
           },
           title: {
             display: true,
-            text: 'Price'
+            text: 'Price',
           },
         },
         responsive: true,
@@ -104,51 +104,47 @@ export default {
           y: {
             ticks: {
               // Include a dollar sign in the ticks
-              callback: function(value) {
-                  return Formatting.formatDollar(value)
-              }
-            }
+              callback(value) {
+                return Formatting.formatDollar(value);
+              },
+            },
           },
           x: {
             type: 'time',
             time: {
               displayFormats: {
-                month: 'MMM YY'
-              }
+                month: 'MMM YY',
+              },
             },
-          }
+          },
         },
-      }
+      },
     });
 
-    let coin = reactive({})
-  
+    const coin = reactive({});
+
     const getCoinData = () => {
       axios.get(`${apiUrl}/coins/${props.id}`)
-      .then(response => {
-        Object.assign(coin, response.data)
-      })
-    }
+        .then((response) => {
+          Object.assign(coin, response.data);
+        });
+    };
 
     const getChartData = () => {
       // todo: break the following variable into individual variables
-      const url = `${apiUrl}/coins/bitcoin/market_chart?vs_currency=usd&days=${selectedTimePeriod.value.days}`
+      const url = `${apiUrl}/coins/bitcoin/market_chart?vs_currency=usd&days=${selectedTimePeriod.value.days}`;
       axios.get(url)
-      .then(response => {
-        lineChart.data.datasets[0].data = response.data.prices.map(price => {
-          return price[1]
-        })
-        lineChart.data.labels = response.data.prices.map(price => {
-          return new Date(price[0])
-        })
-        chartRef.value.update(250)
-      })
-    }
-    
+        .then((response) => {
+          lineChart.data.datasets[0].data = response.data.prices.map((price) => price[1]);
+          lineChart.data.labels = response.data.prices.map((price) => new Date(price[0]));
+          chartRef.value.update(250);
+        });
+    };
+
     onMounted(() => {
-      getCoinData()
-      getChartData()
-    })
+      getCoinData();
+      getChartData();
+    });
     return {
       chartRef,
       coin,
@@ -156,10 +152,10 @@ export default {
       lineChart,
       selectedTimePeriod,
       numberOfDays,
-      timePeriods
-    }
-  }
-}
+      timePeriods,
+    };
+  },
+};
 </script>
 
 <style scoped>

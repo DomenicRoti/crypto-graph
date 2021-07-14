@@ -5,16 +5,16 @@
 </template>
 
 <script>
-import CoinTable from '@/components/CoinTable'
-import CoinMarketCapGraph from '@/components/CoinMarketCapGraph'
+import CoinTable from '@/components/CoinTable';
+import CoinMarketCapGraph from '@/components/CoinMarketCapGraph';
 
 export default {
   name: 'Dashboard',
   components: {
     CoinMarketCapGraph,
-    CoinTable
-  }
-}
+    CoinTable,
+  },
+};
 </script>
 
 <style lang="scss" scoped>

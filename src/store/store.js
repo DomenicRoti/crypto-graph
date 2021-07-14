@@ -1,4 +1,4 @@
-import { createStore } from "vuex" 
+import { createStore } from 'vuex';
 import coins from './modules/coins';
 
 const modules = {
@@ -6,7 +6,7 @@ const modules = {
 };
 
 const store = createStore({
-  modules
-})
+  modules,
+});
 
-export default store
+export default store;

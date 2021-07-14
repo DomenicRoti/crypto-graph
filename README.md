@@ -52,3 +52,10 @@ While I said I was going to look into ChartJS this really more like looking into
 - I got chartjs working and it was crazy easy
 - I did end up getting a couple of components workign with the composition api
 - I used dayjs instead of moment and it worked with no issues
+
+### Todo
+- update linters
+- jsdocs
+- list out vue 3 takeaways
+- more syling on listing page
+- add sidebar

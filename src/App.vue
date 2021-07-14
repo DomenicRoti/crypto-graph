@@ -4,15 +4,15 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
+import { useStore } from 'vuex';
 
 export default {
   name: 'App',
-  setup () {
-    const store = useStore()
-    store.dispatch('getCoins')
-  }
-}
+  setup() {
+    const store = useStore();
+    store.dispatch('getCoins');
+  },
+};
 </script>
 
 <style>

@@ -5,7 +5,7 @@
       <th>Price</th>
       <th>% Change</th>
     </tr>
-    <tr 
+    <tr
       v-for="coin in coins"
       :key="coin.id"
       class="coin-row"
@@ -20,7 +20,7 @@
               <span>{{ coin.name}}</span>
               <span>{{ Formatting.uppercase(coin.symbol) }}</span>
             </span>
-            
+
           </div>
         </router-link>
       </td>
@@ -36,20 +36,20 @@
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useStore } from 'vuex'
-import Formatting from '@/utils/formatting'
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import Formatting from '@/utils/formatting';
 
 export default {
   name: 'CoinTable',
-  setup () {
-    const store = useStore()
+  setup() {
+    const store = useStore();
     return {
       coins: computed(() => store.state.coins.coins),
-      Formatting
-    }
-  }
-}
+      Formatting,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -65,7 +65,7 @@ export default {
   }
   .coin-row {
     color: $cg-black;
-    
+
     .flex {
       flex-direction: row;
       align-items: center;
