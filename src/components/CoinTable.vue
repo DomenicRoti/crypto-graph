@@ -56,13 +56,17 @@ export default {
   table {
     margin: auto;
   }
+
   td {
     padding-bottom: 15px;
     padding-right: 15px;
   }
-  td, th {
+
+  td,
+  th {
     text-align: left;
   }
+
   .coin-row {
     color: $cg-black;
 

@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lint:style": "vue-cli-service lint:style"
   },
   "dependencies": {
     "@j-t-mcc/vue3-chartjs": "^1.1.1",
@@ -19,6 +20,7 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@ascendancyy/vue-cli-plugin-stylelint": "^1.1.2",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "^4.5.13",
@@ -29,7 +31,8 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
     "sass": "^1.35.2",
-    "sass-loader": "^10.1.1"
+    "sass-loader": "^10.1.1",
+    "stylelint-config-standard": "^18.2.0"
   },
   "eslintConfig": {
     "root": true,
